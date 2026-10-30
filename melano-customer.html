@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="ckb" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Melano Fast Food</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@500;700;800;900&family=Outfit:wght@700;900&display=swap">
+<style>
+:root{--bg:#fff6f0;--panel:#fff;--ink:#1f1410;--muted:#8a7265;--line:#f0e2d8;--brand:#e23b2e;--brand2:#ff7a1a;--ok:#15a35a;--soft:#fff0e6;--f:"Vazirmatn",Tahoma,sans-serif;--fd:"Outfit",var(--f)}
+@media (prefers-color-scheme:dark){:root{--bg:#17100d;--panel:#211713;--ink:#f6ece6;--muted:#b39b8d;--line:#342620;--brand:#ff5a4d;--brand2:#ff9a3c;--soft:#2a1b14;color-scheme:dark}}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f);font-size:15px;line-height:1.6}
+.wrap{max-width:720px;margin:0 auto;padding-bottom:90px}
+.hero{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;padding:20px 16px 16px;position:relative;overflow:hidden}
+.hero::after{content:"🍔";position:absolute;font-size:120px;opacity:.12;left:-10px;bottom:-30px;transform:rotate(-15deg)}
+.hero .b{display:flex;align-items:center;gap:12px;position:relative}
+.hero .logo{width:54px;height:54px;border-radius:16px;background:#fff;color:var(--brand);display:grid;place-items:center;font-size:28px}
+.hero h1{font-family:var(--fd);font-weight:900;font-size:1.5rem;margin:0}
+.hero p{margin:2px 0 0;font-size:.85rem;opacity:.95}
+.hero .info{display:flex;gap:14px;margin-top:12px;font-size:.78rem;position:relative;flex-wrap:wrap}
+.hero .info span{background:rgba(255,255,255,.18);border-radius:99px;padding:4px 12px}
+.cats{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:8px;overflow-x:auto;padding:10px 16px;scrollbar-width:none}
+.cats::-webkit-scrollbar{display:none}
+.cat{flex:none;font:inherit;font-weight:700;font-size:.9rem;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:99px;padding:8px 16px;cursor:pointer;white-space:nowrap}
+.cat[aria-pressed=true]{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border-color:transparent}
+.menu{padding:14px 16px;display:grid;gap:12px}
+.sec-h{font-family:var(--fd);font-weight:900;font-size:1.1rem;margin:10px 2px 2px}
+.item{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:12px;display:flex;gap:12px;align-items:center}
+.item .pic{width:72px;height:72px;border-radius:14px;background:var(--soft);display:grid;place-items:center;font-size:38px;flex:none}
+.item .info2{flex:1;min-width:0}.item h3{margin:0;font-size:1rem;font-weight:800}
+.item .desc{color:var(--muted);font-size:.82rem;margin:2px 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item .price{color:var(--brand);font-weight:900;font-family:var(--fd);margin-top:3px}
+.add{flex:none;border:0;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;width:40px;height:40px;border-radius:12px;font-size:1.4rem;cursor:pointer}
+.qtyc{flex:none;display:flex;align-items:center;gap:8px;background:var(--soft);border-radius:12px;padding:4px}
+.qtyc button{border:0;background:var(--panel);color:var(--ink);width:30px;height:30px;border-radius:9px;font-size:1.2rem;cursor:pointer}
+.qtyc b{min-width:18px;text-align:center}
+.fab{position:fixed;left:50%;transform:translateX(-50%);bottom:max(16px,env(safe-area-inset-bottom));z-index:40;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border:0;border-radius:16px;padding:14px 20px;cursor:pointer;font:inherit;font-weight:800;display:flex;align-items:center;gap:12px;box-shadow:0 14px 30px -10px var(--brand);min-width:260px;max-width:92vw;justify-content:space-between}
+.fab .c{background:rgba(255,255,255,.25);border-radius:10px;padding:2px 9px}
+.overlay{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.5);display:none;align-items:flex-end}
+.overlay.on{display:flex}
+.sheet{background:var(--bg);width:100%;max-width:720px;margin:0 auto;border-radius:22px 22px 0 0;max-height:88vh;overflow:auto;padding:16px}
+.sheet-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.sheet-h b{font-family:var(--fd);font-size:1.2rem;font-weight:900}
+.x{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer}
+.crow{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.crow .e{font-size:26px}.crow .n{flex:1;min-width:0}.crow .n b{font-weight:800}.crow .n small{color:var(--muted);display:block}
+.crow .p{font-weight:800;color:var(--brand)}
+.empty{text-align:center;color:var(--muted);padding:30px 0}
+.total{display:flex;justify-content:space-between;font-family:var(--fd);font-weight:900;font-size:1.2rem;margin:14px 2px}
+.field{display:grid;gap:5px;margin-bottom:10px}.field label{font-size:.85rem;color:var(--muted);font-weight:700}
+.field input,.field textarea{font:inherit;padding:11px 13px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--ink)}
+.field textarea{min-height:60px;resize:vertical}
+.btn{width:100%;border:0;border-radius:14px;padding:15px;font:inherit;font-weight:900;font-size:1.05rem;cursor:pointer}
+.btn.go{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff}
+.btn.ghost{background:var(--panel);color:var(--ink);border:1px solid var(--line);margin-top:8px}
+.hint{color:var(--muted);font-size:.78rem;text-align:center;margin:8px 0 0}
+.receipt{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px;font-family:var(--fd)}
+.receipt .rh{text-align:center;border-bottom:1px dashed var(--line);padding-bottom:10px;margin-bottom:10px}
+.receipt .rr{display:flex;justify-content:space-between;font-size:.9rem;padding:3px 0}
+.receipt .rt{border-top:1px dashed var(--line);margin-top:8px;padding-top:8px;font-weight:900}
+.trk{margin:12px 0}.trk-row{border-radius:14px;padding:14px;font-weight:800;text-align:center}
+.trk-row.pend{background:var(--soft);color:var(--brand)}.trk-row.acc{background:rgba(21,163,90,.14);color:var(--ok)}.trk-row.del{background:rgba(21,163,90,.2);color:var(--ok)}
+.cfg{background:#ffe9e4;color:#b4432f;padding:8px 12px;font-size:12px;text-align:center}
+</style>
+</head>
+<body>
+<div id="cfgWarn" class="cfg" hidden>⚠️ تکایە KEY لە سەرەوەی کۆدەکە دابنێ (لە Supabase › Settings › API)</div>
+<div class="wrap">
+  <header class="hero">
+    <div class="b"><div class="logo">🍔</div><div><h1>Melano Fast Food</h1><p>خواردنی خێرا و خۆشترین تامەکان</p></div></div>
+    <div class="info"><span>🛵 گەیاندن ٣٠-٤٥ خولەک</span><span>⭐ ٤.٨</span><span>🟢 کراوەیە</span></div>
+  </header>
+  <div class="cats" id="cats"></div>
+  <div class="menu" id="menu"></div>
+</div>
+<button class="fab" id="fab" hidden><span class="c" id="fabCount">0</span><span>سەبەتە</span><span id="fabTotal">0</span></button>
+<div class="overlay" id="cartOv"><div class="sheet"><div class="sheet-h"><b>🛒 سەبەتەکەت</b><button class="x" id="cartX">✕</button></div><div id="cartBody"></div></div></div>
+<div class="overlay" id="okOv"><div class="sheet"><div class="sheet-h"><b>داواکاریەکەت</b><button class="x" id="okX">✕</button></div><div id="okBody"></div></div></div>
+
+<script>
+// ===== ڕێکخستن: لە Supabase › Settings › API ئەمانە وەربگرە =====
+const SUPA = "https://ytcoveaoimutrhxshinl.supabase.co/rest/v1/rpc/";
+const KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl0Y292ZWFvaW11dHJoeHNoaW5sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMzNjc2MTYsImV4cCI6MjEwODk0MzYxNn0.3Pi1oOlXsuLa7H32raI9bo6xitqa6qZHOdqs_1NwOLM";
+const WA = "9647500000000"; // ژمارەی واتسئەپی چێشتخانە (ئارەزوومەندانە)
+
+const $ = id => document.getElementById(id);
+const money = n => Number(n||0).toLocaleString("en-US") + " د.ع";
+const esc = s => String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+if (KEY.indexOf("PASTE") === 0) $("cfgWarn").hidden = false;
+async function rpc(fn, body){
+  const r = await fetch(SUPA+fn, { method:"POST", headers:{"Content-Type":"application/json", apikey:KEY, Authorization:"Bearer "+KEY}, body:JSON.stringify(body||{}) });
+  return r.json();
+}
+function bell(){ try{ const A=window.AudioContext||window.webkitAudioContext; if(!A)return; const c=new A(); [880,1174.66,1568].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain(),t=c.currentTime+i*0.13;o.type="sine";o.frequency.value=f;g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(0.28,t+0.02);g.gain.exponentialRampToValueAtTime(0.0001,t+0.55);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+0.55);});}catch(e){} }
+
+const MENU = [
+  { cat:"برگر", icon:"🍔", items:[{id:"b1",n:"برگری ئاسایی",d:"گۆشتی مانگا، سەوزە، سۆس",p:4000,e:"🍔"},{id:"b2",n:"چیز برگر",d:"لەگەڵ پەنیری چیدەر",p:5000,e:"🧀"},{id:"b3",n:"دوبڵ برگر",d:"دوو پارچە گۆشت",p:7000,e:"🍔"}]},
+  { cat:"پیتزا", icon:"🍕", items:[{id:"p1",n:"پیتزای مارگاریتا",d:"پەنیر و تەماتە",p:8000,e:"🍕"},{id:"p2",n:"پیتزای پێپەرۆنی",d:"پێپەرۆنی و پەنیر",p:10000,e:"🍕"},{id:"p3",n:"پیتزای مێکس",d:"گۆشت، مریشک، سەوزە",p:12000,e:"🍕"}]},
+  { cat:"ساندویچ", icon:"🌯", items:[{id:"s1",n:"شاورمای مریشک",d:"لەگەڵ سیر و تورشی",p:3500,e:"🌯"},{id:"s2",n:"فلافل",d:"گیاخۆرانە",p:2500,e:"🧆"},{id:"s3",n:"هۆتدۆگ",d:"سۆسیج و سۆس",p:3000,e:"🌭"}]},
+  { cat:"خواردنەوە", icon:"🥤", items:[{id:"d1",n:"کۆلا",d:"٣٣٠ مل",p:1000,e:"🥤"},{id:"d2",n:"فانتا",d:"٣٣٠ مل",p:1000,e:"🧃"},{id:"d3",n:"ئاوی کانزایی",d:"٥٠٠ مل",p:500,e:"💧"}]},
+];
+let cart = {}, geo = null, activeCat = "all", myNum = null, trackTimer = null;
+const allItems = () => MENU.flatMap(s=>s.items);
+const findItem = id => allItems().find(x=>x.id===id);
+const cartCount = () => Object.values(cart).reduce((a,b)=>a+b,0);
+const cartTotal = () => Object.entries(cart).reduce((s,[id,q])=>s+findItem(id).p*q,0);
+
+function renderMenu(){
+  const secs = activeCat==="all"?MENU:MENU.filter(s=>s.cat===activeCat);
+  $("menu").innerHTML = secs.map(s=>`<div class="sec-h">${s.icon} ${esc(s.cat)}</div>`+s.items.map(it=>{
+    const q=cart[it.id]||0;
+    const ctrl=q>0?`<div class="qtyc"><button data-dec="${it.id}">−</button><b>${q}</b><button data-inc="${it.id}">+</button></div>`:`<button class="add" data-inc="${it.id}">+</button>`;
+    return `<div class="item"><div class="pic">${it.e}</div><div class="info2"><h3>${esc(it.n)}</h3><p class="desc">${esc(it.d)}</p><div class="price">${money(it.p)}</div></div>${ctrl}</div>`;
+  }).join("")).join("");
+  $("menu").querySelectorAll("[data-inc]").forEach(b=>b.onclick=()=>{cart[b.dataset.inc]=(cart[b.dataset.inc]||0)+1;update();});
+  $("menu").querySelectorAll("[data-dec]").forEach(b=>b.onclick=()=>{const id=b.dataset.dec;cart[id]--;if(cart[id]<=0)delete cart[id];update();});
+}
+function update(){ renderMenu(); $("fab").hidden=cartCount()===0; $("fabCount").textContent=cartCount(); $("fabTotal").textContent=money(cartTotal()); if($("cartOv").classList.contains("on"))renderCart(); }
+$("cats").innerHTML=`<button class="cat" data-c="all" aria-pressed="true">هەمووی</button>`+MENU.map(s=>`<button class="cat" data-c="${esc(s.cat)}" aria-pressed="false">${s.icon} ${esc(s.cat)}</button>`).join("");
+$("cats").querySelectorAll(".cat").forEach(b=>b.onclick=()=>{activeCat=b.dataset.c;$("cats").querySelectorAll(".cat").forEach(x=>x.setAttribute("aria-pressed",x===b));renderMenu();});
+$("fab").onclick=()=>{renderCart();$("cartOv").classList.add("on");};
+$("cartX").onclick=()=>$("cartOv").classList.remove("on");
+$("cartOv").onclick=e=>{if(e.target.id==="cartOv")$("cartOv").classList.remove("on");};
+$("okX").onclick=()=>$("okOv").classList.remove("on");
+$("okOv").onclick=e=>{if(e.target.id==="okOv")$("okOv").classList.remove("on");};
+
+function getLoc(){ const st=$("locStatus"),btn=$("locBtn"); if(!navigator.geolocation){st.textContent="ئامێر شوێن پشتگیری ناکات.";return;} st.textContent="چاوەڕێ بکە…";
+  navigator.geolocation.getCurrentPosition(p=>{geo={lat:+p.coords.latitude.toFixed(6),lng:+p.coords.longitude.toFixed(6)};st.innerHTML="✓ شوێنەکەت وەرگیرا";st.style.color="var(--ok)";btn.textContent="✓ شوێنەکەت وەرگیرا";},()=>{st.textContent="نەتوانرا، تکایە ناونیشان بنووسە.";st.style.color="var(--brand)";},{enableHighAccuracy:true,timeout:10000}); }
+
+function renderCart(){
+  const ids=Object.keys(cart);
+  if(!ids.length){$("cartBody").innerHTML=`<div class="empty">سەبەتەکەت بەتاڵە 🛒</div>`;return;}
+  $("cartBody").innerHTML=ids.map(id=>{const it=findItem(id),q=cart[id];return `<div class="crow"><span class="e">${it.e}</span><div class="n"><b>${esc(it.n)}</b><small>${money(it.p)} × ${q}</small></div><div class="qtyc"><button data-dec="${id}">−</button><b>${q}</b><button data-inc="${id}">+</button></div><span class="p">${money(it.p*q)}</span></div>`;}).join("")
+    +`<div class="total"><span>کۆی گشتی</span><span>${money(cartTotal())}</span></div>
+      <div class="field"><label>ناوت</label><input id="oName" placeholder="ناوی تەواو"></div>
+      <div class="field"><label>ژمارەی مۆبایل</label><input id="oPhone" inputmode="tel" placeholder="+964 750 ..."></div>
+      <div class="field"><label>ناونیشانی گەیاندن</label><textarea id="oAddr" placeholder="گەڕەک، کۆڵان، نیشانەی ماڵ..."></textarea></div>
+      <button class="btn ghost" id="locBtn" type="button" style="margin-top:0">📍 شوێنی ئێستام بنێرە (بۆ گەیاندنی ورد)</button>
+      <p class="hint" id="locStatus" style="margin:4px 0 0"></p>
+      <button class="btn go" id="placeBtn" style="margin-top:10px">ناردنی داواکاری · ${money(cartTotal())}</button>`;
+  $("cartBody").querySelectorAll("[data-inc]").forEach(b=>b.onclick=()=>{cart[b.dataset.inc]++;update();});
+  $("cartBody").querySelectorAll("[data-dec]").forEach(b=>b.onclick=()=>{const id=b.dataset.dec;cart[id]--;if(cart[id]<=0)delete cart[id];update();});
+  $("locBtn").onclick=getLoc;
+  if(geo){$("locStatus").innerHTML="✓ شوێنەکەت وەرگیرا";$("locStatus").style.color="var(--ok)";$("locBtn").textContent="✓ شوێنەکەت وەرگیرا";}
+  $("placeBtn").onclick=placeOrder;
+}
+async function placeOrder(){
+  const name=$("oName").value.trim(),phone=$("oPhone").value.trim(),addr=$("oAddr").value.trim();
+  if(!name||!phone||!addr){alert("تکایە ناو، ژمارە و ناونیشان بنووسە.");return;}
+  $("placeBtn").disabled=true;$("placeBtn").textContent="چاوەڕێ بکە…";
+  const items=Object.keys(cart).map(id=>{const it=findItem(id);return {n:it.n,q:cart[id],p:it.p};});
+  const total=cartTotal();
+  let res; try{ res=await rpc("place_order",{p_items:items,p_total:total,p_name:name,p_phone:phone,p_addr:addr,p_lat:geo?geo.lat:null,p_lng:geo?geo.lng:null}); }catch(e){ res=null; }
+  $("placeBtn").disabled=false;$("placeBtn").textContent="ناردنی داواکاری · "+money(total);
+  if(!res||!res.ok){ alert("نەنێردرا. ئینتەرنێت بپشکنە یان KEY ـەکە دڵنیا بکەرەوە."); return; }
+  myNum=res.num; bell();
+  const mapsUrl=geo?`https://maps.google.com/?q=${geo.lat},${geo.lng}`:"";
+  const wa=`https://wa.me/${WA}?text=${encodeURIComponent(`داواکاری ${myNum} · کۆ ${money(total)}\n${name} · ${phone}\n${addr}`)}`;
+  $("okBody").innerHTML=`
+    <div class="receipt"><div class="rh"><b>Melano Fast Food</b><div style="font-size:.8rem;color:var(--muted)">داواکاری ${esc(myNum)}</div></div>
+      ${Object.keys(cart).map(id=>{const it=findItem(id);return `<div class="rr"><span>${esc(it.n)} × ${cart[id]}</span><span>${money(it.p*cart[id])}</span></div>`;}).join("")}
+      <div class="rr rt"><span>کۆی گشتی</span><span>${money(total)}</span></div></div>
+    <div class="trk" id="trk"></div>
+    <a class="btn ghost" href="${wa}" target="_blank" rel="noopener" style="text-align:center;display:block;text-decoration:none">📲 واتسئەپی چێشتخانە (ئارەزوومەندانە)</a>
+    <button class="btn ghost" id="newOrder">داواکارییەکی نوێ</button>`;
+  cart={}; geo=null; update(); $("cartOv").classList.remove("on"); $("okOv").classList.add("on");
+  $("newOrder").onclick=()=>{myNum=null;clearInterval(trackTimer);$("okOv").classList.remove("on");};
+  startTrack();
+}
+function startTrack(){
+  clearInterval(trackTimer);
+  const paint = async () => {
+    if(!myNum){clearInterval(trackTimer);return;}
+    let r; try{ r=await rpc("track_order",{p_num:myNum}); }catch(e){ return; }
+    const el=$("trk"); if(!el||!r||!r.ok)return;
+    if(r.status==="pending") el.innerHTML=`<div class="trk-row pend">🕐 داواکارییەکەت نێردرا · چاوەڕێی گەیەنەر...</div>`;
+    else if(r.status==="accepted") el.innerHTML=`<div class="trk-row acc">🛵 گەیەنەرەکەت <b>${esc(r.driver||"")}</b> لە ڕێگایە بۆ لای تۆ!</div>`;
+    else if(r.status==="delivered"){ el.innerHTML=`<div class="trk-row del">✅ گەیەنرا! نۆشی گیان 🍔</div>`; clearInterval(trackTimer); }
+  };
+  paint(); trackTimer=setInterval(paint, 4000);
+}
+renderMenu(); update();
+</script>
+</body>
+</html>
